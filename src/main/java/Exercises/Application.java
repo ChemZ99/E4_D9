@@ -39,6 +39,12 @@ public class Application {
         for (int i = 0; i < 20; i++){
             orderlist1.add(orderSupplier.get());
         }
+
+        ArrayList<Product> productList1 = new ArrayList<Product>();
+        for (int i = 0; i < 20; i++){
+            productList1.add(productSupplier.get());
+        }
+
         System.out.println("*******************************EXERCISE 1*******************************");
         Map<Customer, List<Order>> customerOrdersMap = orderlist1.stream().collect(Collectors.groupingBy(Order::getCustomer));
         System.out.println(customerOrdersMap.toString());
@@ -46,5 +52,12 @@ public class Application {
         Map<Customer, Double> customerTotalMap = orderlist1.stream().collect(Collectors.groupingBy(Order::getCustomer, Collectors.summingDouble(Order -> Order.getProducts().stream().mapToDouble(Product::getPrice).sum())));
         System.out.println(customerTotalMap);
         System.out.println("*******************************EXERCISE 3*******************************");
+        List<Product> topPriceProducts = productList1.stream().sorted(Comparator.comparing(Product::getPrice)).limit(3).toList();
+        System.out.println(topPriceProducts);
+        System.out.println("*******************************EXERCISE 4*******************************");
+        DoubleSummaryStatistics orderAvgPrices = orderlist1.stream().collect(Collectors.summarizingDouble(Order -> Order.getProducts().stream().mapToDouble(Product::getPrice).sum()));
+        System.out.println(orderAvgPrices);
+        System.out.println("*******************************EXERCISE 5*******************************");
+
     }
 }
